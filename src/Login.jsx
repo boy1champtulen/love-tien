@@ -22,11 +22,11 @@ function Login() {
 
     <div className="min-h-screen flex items-center justify-center bg-[#1f1f1f]">
 
-      <div className="flex rounded-xl overflow-hidden shadow-2xl">
+      <div className="flex flex-col md:flex-row rounded-xl overflow-hidden shadow-2xl w-[90%] max-w-[760px]">
 
         {/* GIF BOX */}
         <div
-          className="w-96 h-[420px] bg-cover bg-center"
+          className="w-full md:w-96 h-[220px] md:h-[420px] bg-cover bg-center"
           style={{
             backgroundImage:
             "url('https://cdn.dribbble.com/userupload/41943848/file/original-4d5f6449a01563f617d0c873a8fd9a7d.gif')"
@@ -34,7 +34,7 @@ function Login() {
         />
 
         {/* LOGIN FORM */}
-        <div className="bg-[#2b2b2b] w-96 p-10 flex flex-col justify-center">
+        <div className="bg-[#2b2b2b] w-full md:w-96 p-6 md:p-10 flex flex-col justify-center">
 
           <h2 className="text-3xl font-bold text-gray-200 mb-6 text-center">
             Login for 8/3

@@ -1,30 +1,31 @@
 function SlideCard({ emoji, title, text, next, last }) {
-
   return (
+    <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 sm:p-8 text-center shadow-xl">
 
-    <div className="backdrop-blur-lg bg-white/10 p-10 rounded-2xl shadow-xl text-center max-w-md z-10">
+      <div className="text-5xl sm:text-6xl mb-4">
+        {emoji}
+      </div>
 
-      <div className="text-5xl mb-4">{emoji}</div>
+      {title && (
+        <h2 className="text-xl sm:text-2xl font-bold mb-3">
+          {title}
+        </h2>
+      )}
 
-      <h1 className="text-3xl font-bold mb-4 text-pink-400">
-        {title}
-      </h1>
-
-      <p className="text-gray-200 mb-6">
+      <p className="text-sm sm:text-base text-gray-200 mb-6 leading-relaxed">
         {text}
       </p>
 
       {!last && (
         <button
           onClick={next}
-          className="bg-pink-500 px-6 py-2 rounded-lg hover:bg-pink-600 transition"
+          className="bg-pink-500 hover:bg-pink-600 px-6 py-2 rounded-full text-white transition"
         >
-          Next →
+          Tiếp →
         </button>
       )}
 
     </div>
-
   )
 }
 
