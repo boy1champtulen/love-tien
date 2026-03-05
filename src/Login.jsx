@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import gif from "./assets/login.gif"
 
 function Login() {
 
@@ -27,10 +28,7 @@ function Login() {
         {/* GIF BOX */}
         <div
           className="w-full md:w-96 h-[220px] md:h-[420px] bg-cover bg-center"
-          style={{
-            backgroundImage:
-            "url('https://cdn.dribbble.com/userupload/41943848/file/original-4d5f6449a01563f617d0c873a8fd9a7d.gif')"
-          }}
+          style={{ backgroundImage: `url(${gif})` }}
         />
 
         {/* LOGIN FORM */}
