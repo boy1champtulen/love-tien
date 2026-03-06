@@ -1,19 +1,36 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import HeartCanvas from "../components/HeartCanvas"
 import SlideCard from "../components/SlideCard"
+import audio from "../musicPlayer"
 
 function LoveStory() {
+
+  useEffect(() => {
+
+    const fade = setInterval(() => {
+
+      if (audio.volume < 0.8) {
+        audio.volume = Math.min(audio.volume + 0.02, 0.8)
+      } else {
+        clearInterval(fade)
+      }
+
+    }, 200)
+
+    return () => clearInterval(fade)
+
+  }, [])
 
   const slides = [
     {
       emoji: "💕",
       title:"Hello baby của anh",
-      text: "anh là kayden đây,"
+      text: "anh là kayden(thuan) đây,"
     },
     {
       emoji: "🌹",
       title: "định móc điện thoại ra quay chứ gì =))",
-      text: "cho phép em quay đó kkkk để ảnh còn lưu làm kỷ niệm chứ nhỉ  =))"
+      text: "cho phép em quay đó kkkk để ảnh còn lưu làm kỷ niệm chứ nhỉ"
     },
     {
       emoji: "💫",
@@ -27,7 +44,6 @@ function LoveStory() {
     },
     {
       emoji: "❤️",
-      
       text: "Mong là Tiên sẽ luôn vui vẻ, đáng yêu, và hơi hơi nhõng nhẽo với anh một xíu cũng được, anh chịu hết. Anh sẽ luôn ở đây, bên cạnh em, cùng em đi qua mọi khó khăn, thử thách của cuộc sống. Anh yêu em nhiều lắm, Tiên ơi."  
     },
     {
@@ -56,7 +72,7 @@ function LoveStory() {
         <div
           className="bg-pink-500 h-1 transition-all duration-500"
           style={{ width: `${((index + 1) / slides.length) * 100}%` }}
-        ></div>
+        />
       </div>
 
       <SlideCard
@@ -68,6 +84,7 @@ function LoveStory() {
       />
 
     </div>
+
   )
 }
 

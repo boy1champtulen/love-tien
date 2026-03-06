@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import gif from "./assets/login.gif"
+import { motion } from "framer-motion"
+import loginGif from "./assets/login.gif"
+import { playMusic } from "./musicPlayer"
 
 function Login() {
 
@@ -11,8 +13,9 @@ function Login() {
 
   const handleLogin = () => {
 
-    if(email === "thuytien" && password === "123456"){
-      navigate("/home")
+    if(email === "1" && password === "1"){
+      playMusic()
+      navigate("/game")
     }else{
       alert("Sai tài khoản")
     }
@@ -21,47 +24,58 @@ function Login() {
 
   return(
 
-    <div className="min-h-screen flex items-center justify-center bg-[#1f1f1f]">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#1f1f1f] via-[#2b2b2b] to-black px-4">
 
-      <div className="flex flex-col md:flex-row rounded-xl overflow-hidden shadow-2xl w-[90%] max-w-[760px]">
+      <motion.div
+        initial={{opacity:0,scale:0.9}}
+        animate={{opacity:1,scale:1}}
+        transition={{duration:0.5}}
+        className="flex flex-col md:flex-row rounded-2xl overflow-hidden shadow-2xl backdrop-blur-lg"
+      >
 
-        {/* GIF BOX */}
-        <div
-          className="w-full md:w-96 h-[220px] md:h-[420px] bg-cover bg-center"
-          style={{ backgroundImage: `url(${gif})` }}
-        />
+        {/* GIF */}
+        <div className="md:w-96 w-full h-64 md:h-[420px] bg-black flex items-center justify-center">
+          <img
+            src={loginGif}
+            alt="login animation"
+            className="w-full h-full object-cover"
+          />
+        </div>
 
-        {/* LOGIN FORM */}
-        <div className="bg-[#2b2b2b] w-full md:w-96 p-6 md:p-10 flex flex-col justify-center">
+        {/* FORM */}
+        <div className="bg-[#2b2b2b]/90 md:w-96 w-full p-10 flex flex-col justify-center">
 
           <h2 className="text-3xl font-bold text-gray-200 mb-6 text-center">
-            Login for 8/3
+            LOGIN FOR 8/3
           </h2>
 
           <input
             type="text"
             placeholder="Username"
-            className="mb-3 p-3 rounded-lg bg-[#3a3a3a] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            className="mb-3 p-3 rounded-lg bg-[#3a3a3a] text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-pink-400 transition"
             onChange={(e)=>setEmail(e.target.value)}
           />
 
           <input
             type="password"
             placeholder="Password"
-            className="mb-4 p-3 rounded-lg bg-[#3a3a3a] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            className="mb-4 p-3 rounded-lg bg-[#3a3a3a] text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-pink-400 transition"
             onChange={(e)=>setPassword(e.target.value)}
           />
 
-          <button
+          <motion.button
+            type="button"
+            whileHover={{scale:1.05}}
+            whileTap={{scale:0.95}}
             onClick={handleLogin}
-            className="bg-gray-600 hover:bg-gray-500 text-white py-3 rounded-lg transition"
+            className="bg-gradient-to-r from-pink-500 to-purple-500 hover:opacity-90 text-white py-3 rounded-lg transition"
           >
             Login
-          </button>
+          </motion.button>
 
         </div>
 
-      </div>
+      </motion.div>
 
     </div>
 
