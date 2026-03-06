@@ -58,10 +58,13 @@ function SlideCard({ emoji, title, text, next, last }) {
       )}
 
       {last && (
-        <div className="mt-6 text-pink-400 text-lg">
-          ❤️ hết rồi đó
-        </div>
-      )}
+  <button
+    onClick={()=> window.location.href="/timeline"}
+    className="mt-6 bg-gradient-to-r from-pink-500 to-purple-500 px-6 py-2 rounded-lg"
+  >
+    Xem tiếp ❤️
+  </button>
+)}
 
     </motion.div>
 

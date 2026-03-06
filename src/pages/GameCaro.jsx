@@ -1,251 +1,254 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import PageTransition from "../components/PageTransition"
 
-function GameCaro() {
+function GameCaro(){
 
-  const navigate = useNavigate()
+const navigate = useNavigate()
 
-  const [board,setBoard] = useState(Array(9).fill(""))
-  const [gameOver,setGameOver] = useState(false)
-  const [round,setRound] = useState(1)
+const [board,setBoard] = useState(Array(9).fill(""))
+const [gameOver,setGameOver] = useState(false)
+const [round,setRound] = useState(1)
 
-  const checkWinner = (b) => {
+const lines = [
+[0,1,2],
+[3,4,5],
+[6,7,8],
+[0,3,6],
+[1,4,7],
+[2,5,8],
+[0,4,8],
+[2,4,6]
+]
 
-    const lines = [
-      [0,1,2],
-      [3,4,5],
-      [6,7,8],
-      [0,3,6],
-      [1,4,7],
-      [2,5,8],
-      [0,4,8],
-      [2,4,6]
-    ]
+const checkWinner=(b)=>{
+for(let [a,b1,c] of lines){
+if(b[a] && b[a]===b[b1] && b[a]===b[c]){
+return b[a]
+}
+}
+return null
+}
 
-    for(let [a,b1,c] of lines){
-      if(b[a] && b[a] === b[b1] && b[a] === b[c]){
-        return b[a]
-      }
-    }
+const isDraw=(b)=>{
+return b.every(v=>v!=="")
+}
 
-    return null
-  }
+const resetGame=()=>{
+setBoard(Array(9).fill(""))
+setGameOver(false)
+}
 
-  const isDraw = (b) => {
-    return b.every(cell => cell !== "")
-  }
+const aiMove=(newBoard)=>{
 
-  const resetGame = () => {
-    setBoard(Array(9).fill(""))
-    setGameOver(false)
-  }
+const empty=newBoard
+.map((v,i)=>v===""?i:null)
+.filter(v=>v!==null)
 
-  const aiMove = (newBoard) => {
+if(empty.length===0) return
 
-    const empty = newBoard
-      .map((v,i)=> v === "" ? i : null)
-      .filter(v => v !== null)
+let move
 
-    if(empty.length === 0) return
+// ROUND 1 & 2 → PLAYER THUA
+if(round<=2){
 
-    let move
+for(let [a,b,c] of lines){
 
-    const lines = [
-      [0,1,2],
-      [3,4,5],
-      [6,7,8],
-      [0,3,6],
-      [1,4,7],
-      [2,5,8],
-      [0,4,8],
-      [2,4,6]
-    ]
+const values=[newBoard[a],newBoard[b],newBoard[c]]
 
-    // ===== VÁN 1 : PLAYER THUA =====
-    if(round === 1){
+if(values.filter(v=>v==="O").length===2 && values.includes("")){
+move=[a,b,c][values.indexOf("")]
+break
+}
 
-      for(let [a,b,c] of lines){
+}
 
-        const values=[newBoard[a],newBoard[b],newBoard[c]]
+if(move===undefined){
 
-        if(values.filter(v=>v==="O").length===2 && values.includes("")){
-          move=[a,b,c][values.indexOf("")]
-          break
-        }
+for(let [a,b,c] of lines){
 
-      }
+const values=[newBoard[a],newBoard[b],newBoard[c]]
 
-      if(move === undefined){
-        move = empty[Math.floor(Math.random()*empty.length)]
-      }
+if(values.filter(v=>v==="X").length===2 && values.includes("")){
+move=[a,b,c][values.indexOf("")]
+break
+}
 
-    }
+}
 
-    // ===== VÁN 2 : HÒA =====
-    else if(round === 2){
+}
 
-      // chặn player thắng
-      for(let [a,b,c] of lines){
+if(move===undefined){
+move=empty[Math.floor(Math.random()*empty.length)]
+}
 
-        const values=[newBoard[a],newBoard[b],newBoard[c]]
+}
 
-        if(values.filter(v=>v==="X").length===2 && values.includes("")){
-          move=[a,b,c][values.indexOf("")]
-          break
-        }
+// ROUND 3 → AI CỐ TÌNH THUA
+else{
 
-      }
+move=empty[Math.floor(Math.random()*empty.length)]
 
-      if(move === undefined){
-        move = empty[Math.floor(Math.random()*empty.length)]
-      }
+}
 
-    }
+newBoard[move]="O"
 
-    // ===== VÁN 3 : PLAYER THẮNG =====
-    else{
+setTimeout(()=>{
+setBoard([...newBoard])
+},300)
 
-      move = empty[Math.floor(Math.random()*empty.length)]
+const winner=checkWinner(newBoard)
 
-    }
+if(winner==="O"){
 
-    newBoard[move] = "O"
+setGameOver(true)
 
-    setBoard([...newBoard])
+setTimeout(()=>{
 
-    const aiWinner = checkWinner(newBoard)
+alert("Thua rồi 😏 thử lại lần nữa đi")
 
-    if(aiWinner === "O"){
+setRound(round+1)
 
-      setGameOver(true)
+resetGame()
 
-      setTimeout(()=>{
+},800)
 
-        alert("Thua rồi 😏 thử lại lần nữa đi")
+return
+}
 
-        setRound(2)
-        resetGame()
+if(isDraw(newBoard)){
 
-      },700)
+setGameOver(true)
 
-      return
-    }
+setTimeout(()=>{
 
-    if(isDraw(newBoard)){
+alert("Hòa rồi 😆 chơi lại nha")
 
-      setGameOver(true)
+resetGame()
 
-      setTimeout(()=>{
+},800)
 
-        if(round === 2){
-          alert("Hòa rồi 😆 ván cuối nha")
-          setRound(3)
-        }else{
-          alert("Hòa rồi 😆 chơi lại nha")
-        }
+}
 
-        resetGame()
+}
 
-      },700)
+const handleClick=(i)=>{
 
-    }
+if(board[i]!=="" || gameOver) return
 
-  }
+const newBoard=[...board]
 
-  const handleClick = (i) => {
+newBoard[i]="X"
 
-    if(board[i] !== "" || gameOver) return
+setBoard(newBoard)
 
-    const newBoard = [...board]
+const winner=checkWinner(newBoard)
 
-    newBoard[i] = "X"
+if(winner==="X"){
 
-    setBoard(newBoard)
+setGameOver(true)
 
-    const winner = checkWinner(newBoard)
+setTimeout(()=>{
 
-    if(winner === "X"){
+if(round<=2){
 
-      setGameOver(true)
+alert("Thắng sớm quá 😆 nhưng chưa được đâu")
 
-      setTimeout(()=>{
+resetGame()
 
-        if(round === 3){
-          alert("Ok em thắng rồi… anh thua cả trái tim luôn ❤️")
-          navigate("/home")
-        }else{
-          alert("Em thắng sớm quá 😆 chơi lại nha")
-          resetGame()
-        }
+}else{
 
-      },800)
+alert("Ok em thắng rồi… anh thua cả trái tim luôn ❤️")
 
-      return
-    }
+navigate("/home")
 
-    if(isDraw(newBoard)){
+}
 
-      setGameOver(true)
+},800)
 
-      setTimeout(()=>{
+return
+}
 
-        if(round === 2){
-          alert("Hòa rồi 😆 ván cuối nha")
-          setRound(3)
-        }else{
-          alert("Hòa rồi 😆 chơi lại nha")
-        }
+if(isDraw(newBoard)){
 
-        resetGame()
+setGameOver(true)
 
-      },800)
+setTimeout(()=>{
 
-      return
-    }
+alert("Hòa rồi 😆 chơi lại nha")
 
-    setTimeout(()=>{
-      aiMove(newBoard)
-    },500)
+resetGame()
 
-  }
+},800)
 
-  return(
+return
+}
 
-    <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white px-4">
+setTimeout(()=>{
+aiMove(newBoard)
+},500)
 
-      <h1 className="text-3xl font-bold mb-6 text-pink-400 text-center">
-        Đánh bại anh để mở khóa Love Story ❤️
-      </h1>
+}
 
-      <div className="grid grid-cols-3 gap-3">
+return(
 
-        {board.map((cell,i)=>(
-          <button
-            key={i}
-            onClick={()=>handleClick(i)}
-            className="w-24 h-24 md:w-28 md:h-28 text-3xl md:text-4xl font-bold bg-[#1f1f1f] hover:bg-[#333] rounded-xl flex items-center justify-center transition"
-          >
+<PageTransition>
 
-            {cell === "X" && (
-              <span className="text-red-500 drop-shadow-[0_0_10px_red]">
-                X
-              </span>
-            )}
+<div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-black via-[#0a0a0a] to-black text-white px-4">
 
-            {cell === "O" && (
-              <span className="text-blue-400 drop-shadow-[0_0_10px_cyan]">
-                O
-              </span>
-            )}
+<h1 className="text-4xl font-bold mb-6 text-pink-400 drop-shadow-[0_0_10px_pink]">
+Đánh bại anh để mở khóa ❤️
+</h1>
 
-          </button>
-        ))}
+<p className="mb-6 text-gray-400">
+Round: {round}
+</p>
 
-      </div>
+<div className="grid grid-cols-3 gap-4 p-6 rounded-2xl backdrop-blur-lg bg-white/5 shadow-[0_0_40px_rgba(255,0,120,0.2)]">
 
-    </div>
+{board.map((cell,i)=>(
 
-  )
+<button
+key={i}
+onClick={()=>handleClick(i)}
+className="
+w-24 h-24
+flex items-center justify-center
+text-4xl font-bold
+rounded-xl
+bg-[#1b1b1b]
+hover:bg-[#2a2a2a]
+hover:scale-110
+active:scale-95
+transition
+duration-200
+shadow-[0_0_10px_rgba(255,0,120,0.2)]
+"
+>
+
+<span
+className={`
+transition-all duration-300
+${cell==="X"?"text-pink-400 animate-pulse":""}
+${cell==="O"?"text-blue-400 animate-pulse":""}
+`}
+>
+
+{cell}
+
+</span>
+
+</button>
+
+))}
+
+</div>
+
+</div>
+
+</PageTransition>
+
+)
 
 }
 
