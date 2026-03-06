@@ -13,7 +13,7 @@ function Login() {
 
   const handleLogin = () => {
 
-    if(email === "1" && password === "1"){
+    if(email === "thuytien" && password === "28102001"){
       playMusic()
       navigate("/game")
     }else{
