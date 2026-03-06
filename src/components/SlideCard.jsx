@@ -1,32 +1,72 @@
-function SlideCard({ emoji, title, text, next, last }) {
-  return (
-    <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 sm:p-8 text-center shadow-xl">
+import { useState, useEffect } from "react"
+import { motion } from "framer-motion"
 
-      <div className="text-5xl sm:text-6xl mb-4">
+function SlideCard({ emoji, title, text, next, last }) {
+
+  const [displayText, setDisplayText] = useState("")
+  const [charIndex, setCharIndex] = useState(0)
+
+  useEffect(() => {
+    setDisplayText("")
+    setCharIndex(0)
+  }, [text])
+
+  useEffect(() => {
+
+    if (charIndex < text.length) {
+
+      const timer = setTimeout(() => {
+        setDisplayText(prev => prev + text.charAt(charIndex))
+        setCharIndex(charIndex + 1)
+      }, 35)
+
+      return () => clearTimeout(timer)
+
+    }
+
+  }, [charIndex, text])
+
+  return (
+
+    <motion.div
+      initial={{ opacity:0, scale:0.9 }}
+      animate={{ opacity:1, scale:1 }}
+      className="bg-[#1f1f1f]/90 backdrop-blur-xl p-8 rounded-2xl max-w-md text-center shadow-2xl"
+    >
+
+      <div className="text-5xl mb-4">
         {emoji}
       </div>
 
       {title && (
-        <h2 className="text-xl sm:text-2xl font-bold mb-3">
+        <h2 className="text-2xl font-bold text-pink-400 mb-3">
           {title}
         </h2>
       )}
 
-      <p className="text-sm sm:text-base text-gray-200 mb-6 leading-relaxed">
-        {text}
+      <p className="text-gray-300 leading-relaxed min-h-[90px]">
+        {displayText}
       </p>
 
       {!last && (
         <button
           onClick={next}
-          className="bg-pink-500 hover:bg-pink-600 px-6 py-2 rounded-full text-white transition"
+          className="mt-6 bg-gradient-to-r from-pink-500 to-purple-500 px-6 py-2 rounded-lg"
         >
-          Tiếp →
+          tiếp →
         </button>
       )}
 
-    </div>
+      {last && (
+        <div className="mt-6 text-pink-400 text-lg">
+          ❤️ hết rồi đó
+        </div>
+      )}
+
+    </motion.div>
+
   )
+
 }
 
 export default SlideCard
