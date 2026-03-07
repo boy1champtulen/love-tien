@@ -1,8 +1,11 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import HeartCanvas from "../components/HeartCanvas"
 import SlideCard from "../components/SlideCard"
 
 function LoveStory() {
+
+  const navigate = useNavigate()
 
   const slides = [
     {
@@ -28,7 +31,7 @@ function LoveStory() {
     {
       emoji: "❤️",
       title: "Một chút từ anh",
-      text: "Mong là Tiên sẽ luôn vui vẻ, đáng yêu, và hơi hơi nhõng nhẽo với anh một xíu cũng được, anh chịu hết. Anh sẽ luôn ở đây, bên cạnh em, cùng em đi qua mọi khó khăn, thử thách của cuộc sống. Anh yêu em nhiều lắm, Tiên ơi."
+      text: "Mong là Tiên sẽ luôn vui vẻ, đáng yêu, và hơi hơi nhõng nhẽo với anh một xíu cũng được, anh chịu hết. Anh sẽ luôn ở đây, bên cạnh em, cùng em đi qua mọi khó khăn."
     },
     {
       emoji: "💍",
@@ -40,23 +43,29 @@ function LoveStory() {
   const [index, setIndex] = useState(0)
 
   const next = () => {
-    setIndex((prev) => {
-      if (prev < slides.length - 1) return prev + 1
-      return prev
-    })
+
+    if (index < slides.length - 1) {
+      setIndex(index + 1)
+    } else {
+      navigate("/timeline")
+    }
+
   }
 
   return (
+
     <div className="min-h-screen flex items-center justify-center bg-black text-white relative overflow-hidden">
 
       <HeartCanvas />
 
       {/* progress bar */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gray-700">
+
         <div
           className="bg-pink-500 h-1 transition-all duration-500"
           style={{ width: `${((index + 1) / slides.length) * 100}%` }}
         />
+
       </div>
 
       <SlideCard
@@ -68,7 +77,9 @@ function LoveStory() {
       />
 
     </div>
+
   )
+
 }
 
 export default LoveStory

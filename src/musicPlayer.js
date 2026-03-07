@@ -1,17 +1,27 @@
-let audio
+let audio = null
 
-export const playMusic = () => {
+export const playLoginMusic = () => {
 
-  if(!audio){
-    audio = new Audio("/music.mp3")
-    audio.loop = true
-    audio.volume = 0.7
+  if (audio) {
+    audio.pause()
   }
 
-  if(audio.paused){
-    audio.play().catch(()=>{})
-  }
+  audio = new Audio("/music.mp3")
+  audio.loop = true
+  audio.volume = 0.6
+  audio.play()
 
 }
 
-export const getAudio = () => audio
+export const playTimelineMusic = () => {
+
+  if (audio) {
+    audio.pause()
+  }
+
+  audio = new Audio("/timeline.mp3")
+  audio.loop = true
+  audio.volume = 0.6
+  audio.play()
+
+}

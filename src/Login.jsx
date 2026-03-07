@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
 import loginGif from "./assets/login.gif"
-import { playMusic } from "./musicPlayer"
+import { playLoginMusic } from "./musicPlayer"
 
 
 function Login() {
@@ -15,8 +15,12 @@ function Login() {
   const handleLogin = () => {
 
     if(email === "thuytien" && password === "28102001"){
-      playMusic()
+      playLoginMusic()
+
+    setTimeout(()=>{
       navigate("/game")
+    },200)
+
     }else{
       alert("Sai tài khoản")
     }

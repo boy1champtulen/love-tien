@@ -1,6 +1,6 @@
-
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
+import { playTimelineMusic } from "../musicPlayer"
 
 function SlideCard({ emoji, title, text, next, last }) {
 
@@ -28,15 +28,16 @@ function SlideCard({ emoji, title, text, next, last }) {
     }
 
     if (charIndex === text.length) {
+
       const delay = setTimeout(() => {
         setShowButton(true)
       }, 500)
 
       return () => clearTimeout(delay)
+
     }
 
   }, [charIndex, text])
-
 
   return (
 
@@ -47,19 +48,16 @@ function SlideCard({ emoji, title, text, next, last }) {
       className="bg-[#1f1f1f]/90 backdrop-blur-xl p-6 md:p-8 rounded-2xl max-w-md text-center shadow-2xl border border-pink-500/20"
     >
 
-      {/* Emoji */}
       <div className="text-5xl mb-4 animate-pulse">
         {emoji}
       </div>
 
-      {/* Title */}
       {title && (
         <h2 className="text-2xl font-bold text-pink-400 mb-3">
           {title}
         </h2>
       )}
 
-      {/* Typing text */}
       <p className="text-gray-300 leading-relaxed min-h-[90px] text-lg">
 
         {displayText}
@@ -70,13 +68,18 @@ function SlideCard({ emoji, title, text, next, last }) {
 
       </p>
 
-
-      {/* Button */}
-
-      {showButton && !last && (
+      {showButton && (
 
         <motion.button
-          onClick={next}
+          onClick={() => {
+
+            if (last) {
+              playTimelineMusic()
+            }
+
+            next()
+
+          }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -84,24 +87,9 @@ function SlideCard({ emoji, title, text, next, last }) {
           whileTap={{ scale: 0.95 }}
           className="mt-6 bg-gradient-to-r from-pink-500 to-purple-500 px-6 py-2 rounded-lg text-white font-semibold"
         >
+
           Xem tiếp ❤️
-        </motion.button>
 
-      )}
-
-
-      {showButton && last && (
-
-        <motion.button
-          onClick={() => window.location.href = "/timeline"}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.95 }}
-          className="mt-6 bg-gradient-to-r from-pink-500 to-purple-500 px-6 py-2 rounded-lg text-white font-semibold"
-        >
-          Xem tiếp ❤️
         </motion.button>
 
       )}
@@ -109,6 +97,7 @@ function SlideCard({ emoji, title, text, next, last }) {
     </motion.div>
 
   )
+
 }
 
 export default SlideCard
