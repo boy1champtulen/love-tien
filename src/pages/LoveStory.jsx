@@ -8,7 +8,7 @@ function LoveStory() {
     {
       emoji: "💕",
       title: "Hello baby của anh",
-      text: "anh là kayden đây,"
+      text: "anh là thuận đây,đây là hậu quả khi em yêu phải anh học IT đó"
     },
     {
       emoji: "🌹",

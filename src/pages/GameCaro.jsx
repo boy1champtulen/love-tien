@@ -1,3 +1,4 @@
+
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import PageTransition from "../components/PageTransition"
@@ -49,7 +50,6 @@ if(empty.length===0) return
 
 let move
 
-// ROUND 1 & 2 → PLAYER THUA
 if(round<=2){
 
 for(let [a,b,c] of lines){
@@ -82,10 +82,7 @@ if(move===undefined){
 move=empty[Math.floor(Math.random()*empty.length)]
 }
 
-}
-
-// ROUND 3 → AI CỐ TÌNH THUA
-else{
+}else{
 
 move=empty[Math.floor(Math.random()*empty.length)]
 
@@ -105,7 +102,7 @@ setGameOver(true)
 
 setTimeout(()=>{
 
-alert("Thua rồi 😏 thử lại lần nữa đi")
+alert("Hihi anh thắng rồi 😏 thử lại lần nữa nha")
 
 setRound(round+1)
 
@@ -154,6 +151,8 @@ if(round<=2){
 
 alert("Thắng sớm quá 😆 nhưng chưa được đâu")
 
+setRound(round+1)
+
 resetGame()
 
 }else{
@@ -196,7 +195,7 @@ return(
 
 <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-black via-[#0a0a0a] to-black text-white px-4">
 
-<h1 className="text-4xl font-bold mb-6 text-pink-400 drop-shadow-[0_0_10px_pink]">
+<h1 className="text-3xl md:text-4xl font-bold mb-6 text-pink-400 drop-shadow-[0_0_10px_pink] text-center">
 Đánh bại anh để mở khóa ❤️
 </h1>
 
@@ -204,7 +203,7 @@ return(
 Round: {round}
 </p>
 
-<div className="grid grid-cols-3 gap-4 p-6 rounded-2xl backdrop-blur-lg bg-white/5 shadow-[0_0_40px_rgba(255,0,120,0.2)]">
+<div className="grid grid-cols-3 gap-3 md:gap-4 p-4 md:p-6 rounded-2xl backdrop-blur-lg bg-white/5 shadow-[0_0_40px_rgba(255,0,120,0.2)]">
 
 {board.map((cell,i)=>(
 
@@ -212,9 +211,9 @@ Round: {round}
 key={i}
 onClick={()=>handleClick(i)}
 className="
-w-24 h-24
+w-20 h-20 md:w-24 md:h-24
 flex items-center justify-center
-text-4xl font-bold
+text-3xl md:text-4xl font-bold
 rounded-xl
 bg-[#1b1b1b]
 hover:bg-[#2a2a2a]
