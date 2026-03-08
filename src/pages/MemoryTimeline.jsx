@@ -132,15 +132,17 @@ transition
 {/* VIDEO */}
 
 <motion.video
-whileHover={{scale:1.05}}
-src={m.video}
-className="mt-4 rounded-lg w-full object-cover shadow-lg"
+whileHover={{ scale: 1.05 }}
+className="mt-4 rounded-lg w-full h-auto object-contain shadow-lg"
 autoPlay
 loop
 muted
 playsInline
+webkit-playsinline="true"
 preload="metadata"
-/>
+>
+<source src={m.video} type="video/mp4" />
+</motion.video>
 
 </motion.div>
 
